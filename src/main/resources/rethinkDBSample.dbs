@@ -1,0 +1,115 @@
+<!--
+  ~ Copyright (c) 2016, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+  ~
+  ~ WSO2 Inc. licenses this file to you under the Apache License,
+  ~ Version 2.0 (the "License"); you may not use this file except
+  ~ in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing,
+  ~ software distributed under the License is distributed on an
+  ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  ~ KIND, either express or implied. See the License for the
+  ~ specific language governing permissions and limitations
+  ~ under the License.
+  -->
+
+<data name="RethinkDBSample">
+   <config id="rethink_ds">
+      <property name="custom_query_datasource_class">org.wso2.dss.connectors.rethinkdb.RethinkDBDataSource</property>
+      <property name="custom_datasource_props">
+      	<property name="rethinkDB_server">localhost</property>
+      	<property name="rethinkDB_port">28015</property>
+        <property name="rethinkDB_database">lab</property>
+        <property name="rethinkDB_timeout">200</property>
+      </property>
+   </config>
+   <query id="rethink_count" useConfig="rethink_ds">
+      <expression>employees.count()</expression>
+      <result element="Documents" rowName="Document">
+         <element column="document" name="Data" xsdType="string"/>
+      </result>
+   </query>
+   <query id="rethink_insert" useConfig="rethink_ds">
+      <expression>employees.insert("{name:1, address:2}")</expression>
+      <param name="name" sqlType="STRING"/>
+      <param name="address" sqlType="STRING"/>
+   </query>
+   <query id="rethink_filter" useConfig="rethink_ds">
+      <expression>employees.filter("{name:1}")</expression>
+      <param name="name" sqlType="STRING"/>
+      <result element="Documents" rowName="Document">
+         <element column="document" name="Data" xsdType="string"/>
+      </result>
+   </query>
+   <query id="rethink_new_field_update" useConfig="rethink_ds">
+      <expression>employees.update("{type:1}")</expression>
+      <param name="type" sqlType="STRING"/>
+   </query>
+   <query id="rethink_delete_all_records" useConfig="rethink_ds">
+      <expression>customer.delete()</expression>
+   </query>
+   <query id="rethink_orderby" useConfig="rethink_ds">
+      <expression>employees.orderBy("name")</expression>
+      <result element="Documents" rowName="Document">
+         <element column="document" name="Data" xsdType="string"/>
+      </result>
+   </query>
+   <query id="rethink_pluck" useConfig="rethink_ds">
+      <expression>employees.pluck("name,address")</expression>
+      <result element="Documents" rowName="Document">
+         <element column="document" name="Data" xsdType="string"/>
+      </result>
+   </query>
+   <query id="rethink_drop_table" useConfig="rethink_ds">
+      <expression>dancers.tableDrop()</expression>
+   </query>
+   <query id="rethink_create_table" useConfig="rethink_ds">
+      <expression>dancers.tableCreate()</expression>
+   </query>
+   <query id="rethink_retrieve_all" useConfig="rethink_ds">
+      <expression>employees.table()</expression>
+      <result element="Documents" rowName="Document">
+         <element column="document" name="Data" xsdType="string"/>
+      </result>
+   </query>
+   <operation name="rethink_count">
+      <call-query href="rethink_count"></call-query>
+   </operation>
+   <operation name="rethink_insert">
+      <call-query href="rethink_insert">
+         <with-param name="name" query-param="name"/>
+         <with-param name="address" query-param="address"/>
+      </call-query>
+   </operation>
+   <operation name="rethink_filter">
+      <call-query href="rethink_filter">
+         <with-param name="name" query-param="name"/>
+      </call-query>
+   </operation>
+   <operation name="rethink_new_field_update">
+      <call-query href="rethink_new_field_update">
+         <with-param name="type" query-param="type"/>
+      </call-query>
+   </operation>
+   <operation name="rethink_delete_all_records">
+      <call-query href="rethink_delete_all_records"></call-query>
+   </operation>
+   <operation name="rethink_orderby">
+      <call-query href="rethink_orderby"></call-query>
+   </operation>
+   <operation name="rethink_pluck">
+      <call-query href="rethink_pluck"></call-query>
+   </operation>
+   <operation name="rethink_drop_table">
+      <call-query href="rethink_drop_table"></call-query>
+   </operation>
+   <operation name="rethink_create_table">
+      <call-query href="rethink_create_table"></call-query>
+   </operation>
+   <operation name="rethink_retrieve_all">
+      <call-query href="rethink_retrieve_all"></call-query>
+   </operation>
+</data>
